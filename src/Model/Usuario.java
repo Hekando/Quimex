@@ -6,7 +6,7 @@ public class Usuario {
     private String nombre;
     private String correo;
     private String contrasena;
-    private String rol;
+    private int id_rol;
     private boolean estado;
 
     public int getIdUsuario() {return idUsuario;}
@@ -21,14 +21,14 @@ public class Usuario {
     public String getContrasena() {return contrasena;}
     public void setContrasena(String contrasena) {this.contrasena = contrasena;}
 
-    public String getRol() {return rol;}
-    public void setRol(String rol) {this.rol = rol;}
+    public int getId_rol() {return id_rol;}
+    public void setId_rol(int id_rol) {this.id_rol = id_rol;}
 
     public boolean isEstado() {return estado;}
     public void setEstado(boolean estado) {this.estado = estado;}
 
     @Override
     public String toString() {
-        return nombre + " - " + rol;
+        return nombre + " - " + id_rol;
     }
 }

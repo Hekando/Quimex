@@ -6,12 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import Controller.LoginController;
+import Model.Usuario;
 
 /**
  * Clase: Login
  * Descripción: Interfaz gráfica que permite autenticar usuarios.
  */
-public class Login extends JFrame {
+public class LoginView extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +35,7 @@ public class Login extends JFrame {
     private final Color COLOR_BORDE_NORMAL = new Color(200, 200, 200);
     private final Color COLOR_BORDE_ERROR = new Color(220, 70, 70);
 
-    public Login() {
+    public LoginView() {
 
         // Inicialización del controlador
         loginController = new LoginController();
@@ -243,24 +244,26 @@ public class Login extends JFrame {
         }
 
         // Enviar datos al controlador
-        boolean exito =
+        Usuario usuario =
                 loginController.autenticar(
                         correo,
                         password
                 );
 
         // Resultado de la autenticación
-        if (exito) {
+        if (usuario != null) {
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Bienvenido/a\nCorreo: " + correo,
+                    "Bienvenido/a\n" + usuario.getNombre(),
                     "Login exitoso",
                     JOptionPane.INFORMATION_MESSAGE
             );
 
             // Cerrar ventana de login
             this.dispose();
+
+            new MenuView(usuario).setVisible(true);
 
         } else {
 

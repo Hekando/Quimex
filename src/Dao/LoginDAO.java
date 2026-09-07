@@ -1,6 +1,8 @@
 package Dao;
 
 import Conexion.ConexionBD;
+import Model.Usuario;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,10 +10,10 @@ import java.sql.SQLException;
 
 public class LoginDAO {
 
-    public boolean validarCredenciales(String correo, String contrasena) {
+    public Usuario validarCredenciales(String correo, String contrasena) {
 
         String sql = "SELECT * FROM usuarios " +
-                "WHERE correo = ? AND contrasena = ? AND estado = 1";
+                "WHERE correo = ? AND contrasena = SHA2(?,256) AND estado = TRUE";
 
         try (Connection conexion = ConexionBD.getConexion();
              PreparedStatement ps = conexion.prepareStatement(sql)) {
@@ -21,11 +23,47 @@ public class LoginDAO {
 
             ResultSet rs = ps.executeQuery();
 
-            return rs.next();
+            if(rs.next()) {
+
+
+                Usuario usuario = new Usuario();
+
+
+                usuario.setIdUsuario(
+                        rs.getInt("id_usuario")
+                );
+
+
+                usuario.setNombre(
+                        rs.getString("nombre")
+                );
+
+
+                usuario.setCorreo(
+                        rs.getString("correo")
+                );
+
+
+                usuario.setId_rol(
+                        rs.getInt("id_rol")
+                );
+
+
+                usuario.setEstado(
+                        rs.getBoolean("estado")
+                );
+
+
+                return usuario;
+
+            }
+
+
+            return null;
 
         } catch (SQLException e) {
             System.out.println("Error al validar las credenciales: " + e.getMessage());
-            return false;
+            return null;
         }
     }
 }

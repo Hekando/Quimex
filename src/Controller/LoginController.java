@@ -1,6 +1,7 @@
 package Controller;
 
 import Dao.LoginDAO;
+import Model.Usuario;
 
 public class LoginController {
 
@@ -13,10 +14,10 @@ public class LoginController {
 
     /**
      * Método que permite autenticar a un usuario en el sistema.
-     * Recibe usuario, contraseña y rol, y delega la validación al DAO.
+     * Recibe usuario y contrasena, y delega la validación al DAO.
      * Retorna true si las credenciales son correctas, false en caso contrario.
      */
-    public boolean autenticar(String correo, String contrasena) {
+    public Usuario autenticar(String correo, String contrasena) {
         return loginDAO.validarCredenciales(correo, contrasena);
     }
 }
