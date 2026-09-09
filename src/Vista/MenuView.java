@@ -93,14 +93,14 @@ public class MenuView extends JFrame {
                 )
         );
 
-        JLabel lblNombre = new JLabel(
-                usuario.getNombre()
+        JLabel lblCorreo = new JLabel(
+                usuario.getCorreo()
         );
-        lblNombre.setForeground(Color.WHITE);
-        lblNombre.setFont(
+        lblCorreo.setForeground(Color.WHITE);
+        lblCorreo.setFont(
                 new Font("Arial", Font.BOLD, 14)
         );
-        lblNombre.setAlignmentX(
+        lblCorreo.setAlignmentX(
                 Component.RIGHT_ALIGNMENT
         );
 
@@ -123,7 +123,7 @@ public class MenuView extends JFrame {
                 Component.RIGHT_ALIGNMENT
         );
 
-        panelDatosUsuario.add(lblNombre);
+        panelDatosUsuario.add(lblCorreo);
         panelDatosUsuario.add(lblRol);
 
         btnCerrar = new JButton("Cerrar sesión");
@@ -261,24 +261,37 @@ public class MenuView extends JFrame {
                 tarjetaReportes
         );
 
-        panelTarjetas.add(tarjetaAsistencia);
-
-        // Solo administrador
         if (usuario.getId_rol() == 1) {
 
+            // ADMINISTRADOR
+            panelTarjetas.add(tarjetaAsistencia);
             panelTarjetas.add(tarjetaUsuarios);
             panelTarjetas.add(tarjetaReportes);
 
         } else {
 
-            // Para empleado centramos la tarjeta
-            JPanel espacio = new JPanel();
-            espacio.setOpaque(false);
+            // EMPLEADO
+            JPanel panelEmpleado = new JPanel(
+                    new FlowLayout(
+                            FlowLayout.CENTER,
+                            0,
+                            0
+                    )
+            );
 
-            panelTarjetas.add(espacio);
-            panelTarjetas.add(new JPanel() {{
-                setOpaque(false);
-            }});
+            panelEmpleado.setBackground(FONDO);
+
+            panelEmpleado.add(tarjetaAsistencia);
+
+            panelTarjetas.setLayout(
+                    new FlowLayout(
+                            FlowLayout.CENTER,
+                            0,
+                            0
+                    )
+            );
+
+            panelTarjetas.add(panelEmpleado);
         }
 
         panelContenido.add(panelTarjetas);
