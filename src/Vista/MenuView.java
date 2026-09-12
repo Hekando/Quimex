@@ -472,12 +472,9 @@ public class MenuView extends JFrame {
 
         btnAsistencia.addActionListener(e -> {
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Módulo de asistencia en desarrollo.",
-                    "Mi Asistencia",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            new AsistenciaView(usuario).setVisible(true);
+            dispose();
+
 
         });
 
@@ -485,12 +482,8 @@ public class MenuView extends JFrame {
 
             btnUsuarios.addActionListener(e -> {
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Módulo de usuarios en desarrollo.",
-                        "Gestionar Usuarios",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
+            new Vista.Usuario().setVisible(true);
+            dispose();
 
             });
         }
@@ -499,12 +492,8 @@ public class MenuView extends JFrame {
 
             btnReportes.addActionListener(e -> {
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Módulo de reportes en desarrollo.",
-                        "Reportes",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
+            //new ReporteView(usuario).setVisible(true);
+            dispose();
 
             });
         }
