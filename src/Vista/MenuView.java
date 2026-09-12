@@ -468,13 +468,16 @@ public class MenuView extends JFrame {
     // ACCIONES
     // =========================================================
 
+    // =========================================================
+    // ACCIONES
+    // =========================================================
+
     private void acciones() {
 
         btnAsistencia.addActionListener(e -> {
 
-            new AsistenciaView(usuario).setVisible(true);
+            //new AsistenciaView().setVisible(true);
             dispose();
-
 
         });
 
@@ -482,8 +485,8 @@ public class MenuView extends JFrame {
 
             btnUsuarios.addActionListener(e -> {
 
-            new Vista.Usuario().setVisible(true);
-            dispose();
+                //new UsuarioView().setVisible(true);
+                dispose();
 
             });
         }
@@ -492,17 +495,10 @@ public class MenuView extends JFrame {
 
             btnReportes.addActionListener(e -> {
 
-            //new ReporteView(usuario).setVisible(true);
-            dispose();
+                //new ReporteView().setVisible(true);
+                dispose();
 
             });
         }
-
-        btnCerrar.addActionListener(e -> {
-
-            new LoginView().setVisible(true);
-            dispose();
-
-        });
     }
 }
