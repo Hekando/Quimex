@@ -472,7 +472,7 @@ public class MenuView extends JFrame {
 
         btnAsistencia.addActionListener(e -> {
 
-            //new AsistenciaView().setVisible(true);
+            new AsistenciaView(usuario).setVisible(true);
             dispose();
 
         });
@@ -481,7 +481,7 @@ public class MenuView extends JFrame {
 
             btnUsuarios.addActionListener(e -> {
 
-                //new UsuarioView().setVisible(true);
+                new Vista.Usuario().setVisible(true);
                 dispose();
 
             });
