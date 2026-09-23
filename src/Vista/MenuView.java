@@ -28,6 +28,7 @@ public class MenuView extends JFrame {
 
         // Configuración de ventana
         setTitle("Quimex - Menú Principal");
+        setUndecorated(true);
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -481,7 +482,7 @@ public class MenuView extends JFrame {
 
             btnUsuarios.addActionListener(e -> {
 
-                new Vista.Usuario().setVisible(true);
+                new UsuarioView(usuario).setVisible(true);
                 dispose();
 
             });
