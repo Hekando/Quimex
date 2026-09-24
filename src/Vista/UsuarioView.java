@@ -12,7 +12,15 @@ import javax.swing.JOptionPane;
 public class UsuarioView extends javax.swing.JFrame {
     int id=0;
     Usuario u = new Usuario();
-    //Boolean b=false;
+    
+    
+    /**
+     * Crea una nueva ventana para la gestión y control de usuarios.
+     * Configura el diseño visual, inicializa los componentes de la interfaz, 
+     * establece los colores corporativos y muestra la información del usuario en sesión.
+     * 
+     * @param user Objeto {@link Model.Usuario} que representa al usuario autenticado actual.
+     */
     public UsuarioView(Usuario user) {
         initComponents();
         this.setLocationRelativeTo(null); 
@@ -34,6 +42,12 @@ public class UsuarioView extends javax.swing.JFrame {
         }
     }
     
+    
+    /**
+     * Consulta la lista completa de usuarios registrados mediante el controlador
+     * y la renderiza en el componente visual JList.
+     * Limpia cualquier selección previa de forma segura.
+     */
     private void cargar_lista(){
         UsuarioController u = new UsuarioController();
         ArrayList<String> listaDatos = u.listaUsuarios();
@@ -52,6 +66,11 @@ public class UsuarioView extends javax.swing.JFrame {
         lis_usuario.clearSelection();
     }
     
+    
+    /**
+     * Cambia el estado de los componentes del formulario a deshabilitados (solo lectura)
+     * y restablece el fondo a color blanco para denotar bloqueo de edición.
+     */
     private void bloqueo_componentes(){
         txt_nombre.setEnabled(false);
         txt_correo.setEnabled(false);
@@ -59,8 +78,21 @@ public class UsuarioView extends javax.swing.JFrame {
         txt_pass2.setEnabled(false);
         jList_rol.setEnabled(false);
         jList_estado.setEnabled(false);
+        
+        txt_nombre.setBackground(Color.white);
+        txt_correo.setBackground(Color.white);
+        txt_pass1.setBackground(Color.white);
+        txt_pass2.setBackground(Color.white);
+        jList_rol.setBackground(Color.white);
+        jList_estado.setBackground(Color.white);
     }
     
+    
+    /**
+     * Habilita todos los campos de entrada de texto y listas de selección del formulario,
+     * cambia su color de fondo para indicar un estado activo de edición o inserción,
+     * y asigna el foco del teclado al campo de nombre completo.
+     */
     private void habilitar_componentes(){
         txt_nombre.setEnabled(true);
         txt_correo.setEnabled(true);
@@ -68,6 +100,15 @@ public class UsuarioView extends javax.swing.JFrame {
         txt_pass2.setEnabled(true);
         jList_rol.setEnabled(true);
         jList_estado.setEnabled(true);
+        
+        txt_nombre.setBackground(new java.awt.Color(130, 255, 80));
+        txt_correo.setBackground(new java.awt.Color(130, 255, 80));
+        txt_pass1.setBackground(new java.awt.Color(130, 255, 80));
+        txt_pass2.setBackground(new java.awt.Color(130, 255, 80));
+        jList_rol.setBackground(new java.awt.Color(130, 255, 80));
+        jList_estado.setBackground(new java.awt.Color(130, 255, 80));
+        
+        txt_nombre.requestFocusInWindow();
     }
     
     private void limpiar_campos(){
@@ -79,6 +120,13 @@ public class UsuarioView extends javax.swing.JFrame {
         jList_estado.clearSelection();
     }
     
+    
+    /**
+     * Despliega un cuadro de diálogo de confirmación para eliminar el usuario seleccionado.
+     * Si el usuario confirma la acción, se comunica con el controlador para borrar el registro
+     * de la base de datos, restablece los componentes de la interfaz, vacía los campos 
+     * y refresca la lista visual de registros.
+     */
     private void panelEliminar(){
         int respuesta = JOptionPane.showConfirmDialog(
         this, 
@@ -100,6 +148,8 @@ public class UsuarioView extends javax.swing.JFrame {
                 cargar_lista();
                 System.out.println("eliminado exito");
                 btn_eliminar.setBackground(new java.awt.Color(30, 120, 200));//azul
+                lb_eliminar.setText("Eliminar Usuario");
+                JOptionPane.showMessageDialog(null,"Usuario eliminado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
         } else {
             System.out.println("Operación cancelada.");
             btn_eliminar.setBackground(new java.awt.Color(30, 120, 200));//azul
@@ -310,7 +360,7 @@ public class UsuarioView extends javax.swing.JFrame {
         lb_editar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_editar.setForeground(new java.awt.Color(255, 255, 255));
         lb_editar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_editar.setText("Editar");
+        lb_editar.setText("Editar Usuario");
         lb_editar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 lb_editarMousePressed(evt);
@@ -336,7 +386,7 @@ public class UsuarioView extends javax.swing.JFrame {
         lb_nuevo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_nuevo.setForeground(new java.awt.Color(255, 255, 255));
         lb_nuevo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_nuevo.setText("Nuevo");
+        lb_nuevo.setText("Nuevo Usuario");
         lb_nuevo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 lb_nuevoMousePressed(evt);
@@ -362,7 +412,7 @@ public class UsuarioView extends javax.swing.JFrame {
         lb_eliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         lb_eliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_eliminar.setText("Eliminar");
+        lb_eliminar.setText("Eliminar Usuario");
         lb_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 lb_eliminarMousePressed(evt);
@@ -540,18 +590,28 @@ public class UsuarioView extends javax.swing.JFrame {
     }//GEN-LAST:event_lb_volverMouseExited
 
     private void lb_nuevoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_nuevoMousePressed
-        if (lb_nuevo.isEnabled() && lb_nuevo.getText().equals("Nuevo")){
-            //if(b){}
+        if (lb_nuevo.isEnabled() && lb_nuevo.getText().equals("Nuevo Usuario")){
             btn_nuevo.setBackground(new java.awt.Color(30, 150, 220));//celeste claro
         }else if(lb_nuevo.isEnabled() && lb_nuevo.getText().equals("Guardar")){
             btn_nuevo.setBackground(new java.awt.Color(40, 220, 140));//verde claro
         }
     }//GEN-LAST:event_lb_nuevoMousePressed
 
+    
+    /**
+     * Maneja el ciclo de vida de la inserción de un nuevo usuario en el sistema.
+     * Funciona como una máquina de estados basada en el texto de la etiqueta:
+     * <ul>
+     *   <li>Si el texto es "Nuevo Usuario": Limpia y habilita los componentes visuales para la captura de datos.</li>
+     *   <li>Si el texto es "Guardar": Valida campos obligatorios, aplica una expresión regular (Regex) 
+     *       para verificar el formato de correo electrónico, valida la coincidencia de contraseñas 
+     *       y procede a insertar el registro en la base de datos a través del controlador.</li>
+     * </ul>
+     * 
+     * @param evt Evento del ratón que dispara la acción al soltar el botón.
+     */
     private void lb_nuevoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_nuevoMouseReleased
-        //b=false;
-        //if (lb_nuevo.isEnabled()){
-        if (lb_nuevo.isEnabled() && lb_nuevo.getText().equals("Nuevo")) {
+        if (lb_nuevo.isEnabled() && lb_nuevo.getText().equals("Nuevo Usuario")) {
             lb_nuevo.setText("Guardar");
             lb_editar.setEnabled(false);
             lb_eliminar.setEnabled(false);
@@ -594,7 +654,7 @@ public class UsuarioView extends javax.swing.JFrame {
                                 UsuarioController u = new UsuarioController();
                                 u.insertar(txt_nombre.getText(), txt_correo.getText(), pin1, rol, state);
             
-                                lb_nuevo.setText("Nuevo");
+                                lb_nuevo.setText("Nuevo Usuario");
                                 lb_editar.setEnabled(true);
                                 lb_eliminar.setEnabled(true);
                                 //btn_editar.setEnabled(true);
@@ -605,6 +665,8 @@ public class UsuarioView extends javax.swing.JFrame {
                                 bloqueo_componentes();
                                 re_cargar_lista();
                                 cargar_lista();
+                                JOptionPane.showMessageDialog(null,"Usuario agregado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
+                                
                     System.out.println("guardardo exito");
                     btn_nuevo.setBackground(new java.awt.Color(30, 120, 200));//azul
                 }else{
@@ -630,7 +692,7 @@ public class UsuarioView extends javax.swing.JFrame {
             }else{
                 //todo los campos estan vacios
                 System.out.println("todos vacios");
-                lb_nuevo.setText("Nuevo");
+                lb_nuevo.setText("Nuevo Usuario");
                 lb_editar.setEnabled(true);
                 lb_eliminar.setEnabled(true);
                 btn_editar.setEnabled(true);
@@ -648,16 +710,32 @@ public class UsuarioView extends javax.swing.JFrame {
         //}
     }//GEN-LAST:event_lb_nuevoMouseReleased
 
+    
+    /**
+     * Maneja el ciclo de vida de la actualización de datos de un usuario existente.
+     * Funciona como una máquina de estados basada en el texto de la etiqueta:
+     * <ul>
+     *   <li>Si el texto es "Editar Usuario": Requiere una selección previa en la lista, habilita los 
+     *       campos del formulario y notifica al usuario las condiciones para conservar la clave actual.</li>
+     *   <li>Si el texto es "Guardar": Ejecuta la validación de formato de correo. Admite dos flujos de persistencia:
+     *     <ul>
+     *       <li>Si las cajas de contraseña contienen datos, actualiza la cuenta modificando la clave.</li>
+     *       <li>Si las cajas de contraseña están vacías, invoca un método especializado para actualizar 
+     *           los datos del perfil conservando la contraseña intacta en la base de datos.</li>
+     *     </ul>
+     *   </li>
+     * </ul>
+     * 
+     * @param evt Evento del ratón que dispara la acción al soltar el botón.
+     */
     private void lb_editarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_editarMouseReleased
-        //btn_editar.setBackground(new java.awt.Color(40, 180, 120));//verde
-        
-        if (lb_editar.getText().equals("Editar") && !lis_usuario.isSelectionEmpty() && lb_nuevo.isEnabled()) {
+        if (lb_editar.getText().equals("Editar Usuario") && !lis_usuario.isSelectionEmpty() && lb_nuevo.isEnabled()) {
             lb_editar.setText("Guardar");
             lb_nuevo.setEnabled(false);
             lb_eliminar.setEnabled(false);
             //btn_nuevo.setEnabled(false);
             //btn_eliminar.setEnabled(false);
-            lb_nota.setText("Si quiere conservar su CONTRASEÑA deje vacio esos campos y modifique los demas");
+            lb_nota.setText("Si quiere conservar su CONTRASEÑA deje vacio esos campos y modifique los demas campos");
             lis_usuario.setEnabled(false);
             habilitar_componentes();
             btn_editar.setBackground(new java.awt.Color(40, 180, 120));//verde
@@ -693,7 +771,7 @@ public class UsuarioView extends javax.swing.JFrame {
                                 UsuarioController u = new UsuarioController();
                                 u.actualizar(id, txt_nombre.getText(), txt_correo.getText(), pin1, rol, state);
             
-                                lb_editar.setText("Editar");
+                                lb_editar.setText("Editar Usuario");
                                 lb_nuevo.setEnabled(true);
                                 lb_eliminar.setEnabled(true);
                                 btn_nuevo.setEnabled(true);
@@ -705,9 +783,8 @@ public class UsuarioView extends javax.swing.JFrame {
                                 re_cargar_lista();
                                 cargar_lista();
                     System.out.println("guardardo exito");
-                    //b=true;
-                    //btn_editar.setBackground(new java.awt.Color(20, 160, 240));
                     btn_editar.setBackground(new java.awt.Color(30, 120, 200));//azul
+                    JOptionPane.showMessageDialog(null,"Usuario modificado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }else{
                     btn_editar.setBackground(new java.awt.Color(40, 180, 120));//verde
@@ -754,7 +831,7 @@ public class UsuarioView extends javax.swing.JFrame {
                                 UsuarioController u = new UsuarioController();
                                 u.actualizar_sin(id, txt_nombre.getText(), txt_correo.getText(), rol, state);
             
-                                lb_editar.setText("Editar");
+                                lb_editar.setText("Editar Usuario");
                                 lb_nuevo.setEnabled(true);
                                 lb_eliminar.setEnabled(true);
                                 btn_nuevo.setEnabled(true);
@@ -791,7 +868,7 @@ public class UsuarioView extends javax.swing.JFrame {
     }//GEN-LAST:event_lb_editarMouseReleased
 
     private void lb_editarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_editarMousePressed
-        if (lb_editar.isEnabled() && lb_editar.getText().equals("Editar")){
+        if (lb_editar.isEnabled() && lb_editar.getText().equals("Editar Usuario")){
             btn_editar.setBackground(new java.awt.Color(30, 150, 220));//celeste claro
         }else if(lb_editar.isEnabled() && lb_editar.getText().equals("Guardar")){
             btn_editar.setBackground(new java.awt.Color(40, 220, 140));//verde claro
@@ -799,7 +876,7 @@ public class UsuarioView extends javax.swing.JFrame {
     }//GEN-LAST:event_lb_editarMousePressed
 
     private void lb_eliminarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_eliminarMousePressed
-        if (lb_eliminar.isEnabled() && lb_eliminar.getText().equals("Eliminar")){
+        if (lb_eliminar.isEnabled() && lb_eliminar.getText().equals("Eliminar Usuario")){
             btn_eliminar.setBackground(new java.awt.Color(30, 150, 220));//celeste claro
         }else if(lb_eliminar.isEnabled() && lb_eliminar.getText().equals("Confirmar")){
             btn_eliminar.setBackground(new java.awt.Color(255, 90, 90));//rojo claro
@@ -814,6 +891,15 @@ public class UsuarioView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lb_eliminarMouseReleased
 
+    
+    /**
+     * Escucha los cambios de selección dentro de la lista visual de usuarios.
+     * Cuando un registro es seleccionado, extrae su identificador, consulta sus datos 
+     * detallados mediante el controlador y puebla de manera automática todos los campos 
+     * del formulario (nombre, correo, rol y estado) mapeando los valores numéricos correspondientes.
+     * 
+     * @param evt Evento de cambio de estado en la selección de la lista.
+     */
     private void lis_usuarioValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lis_usuarioValueChanged
         if (!evt.getValueIsAdjusting()) {
             if (lis_usuario.getSelectedValue() != null) {
