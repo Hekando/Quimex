@@ -36,6 +36,7 @@ public class UsuarioControllerTest {
         assertNotNull(resultado, "La lista no debería ser nula");
         assertEquals(2, resultado.size(), "Debería retornar 2 usuarios");
         assertEquals("Marcelo", resultado.get(0), "El primer usuario debe ser Marcelo");
+        System.out.println("Test1 realizado con exito");
     }
 
     // TEST 2: Validar que busque correctamente por nombre
@@ -48,5 +49,6 @@ public class UsuarioControllerTest {
         assertNotNull(resultado, "El resultado no debería ser nulo");
         assertEquals("1", resultado.get(0), "El ID devuelto debe ser 1");
         assertEquals("m@gmail.com", resultado.get(2), "El correo electrónico debe ser m@gmail.com");
+        System.out.println("Test2 realizado con exito");
     }
 }
