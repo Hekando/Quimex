@@ -492,7 +492,7 @@ public class MenuView extends JFrame {
 
             btnReportes.addActionListener(e -> {
 
-                //new ReporteView().setVisible(true);
+                new ReportesView(usuario).setVisible(true);
                 dispose();
 
             });

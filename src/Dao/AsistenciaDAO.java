@@ -17,6 +17,7 @@ import java.sql.Time;
 // Clases para trabajar con fecha y hora en Java
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 
 /*
@@ -538,4 +539,163 @@ public class AsistenciaDAO {
 
         return null;
     }
+
+    // =========================
+    // REPORTE DE ATRASOS
+    // =========================
+
+    public ArrayList<Object[]> obtenerAtrasos(String fecha) {
+
+        ArrayList<Object[]> lista = new ArrayList<>();
+
+        String sql = """
+                SELECT u.id_usuario,
+                       u.nombre,
+                       a.fecha,
+                       a.hora_entrada
+                FROM asistencias a
+                INNER JOIN usuarios u
+                    ON a.id_usuario = u.id_usuario
+                WHERE a.fecha = ?
+                  AND a.hora_entrada > '09:30:00'
+                ORDER BY a.hora_entrada
+                """;
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setDate(1, Date.valueOf(fecha));
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Object[] fila = {
+                            rs.getInt("id_usuario"),
+                            rs.getString("nombre"),
+                            rs.getDate("fecha"),
+                            rs.getTime("hora_entrada")
+                    };
+
+                    lista.add(fila);
+                }
+            }
+
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "Error al obtener reporte de atrasos: "
+                            + e.getMessage()
+            );
+        }
+
+        return lista;
+    }
+
+
+    // =========================
+    // REPORTE DE SALIDAS ANTICIPADAS
+    // =========================
+
+    public ArrayList<Object[]> obtenerSalidasAnticipadas(String fecha) {
+
+        ArrayList<Object[]> lista = new ArrayList<>();
+
+        String sql = """
+                SELECT u.id_usuario,
+                       u.nombre,
+                       a.fecha,
+                       a.hora_salida
+                FROM asistencias a
+                INNER JOIN usuarios u
+                    ON a.id_usuario = u.id_usuario
+                WHERE a.fecha = ?
+                  AND a.hora_salida IS NOT NULL
+                  AND a.hora_salida < '17:30:00'
+                ORDER BY a.hora_salida
+                """;
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setDate(1, Date.valueOf(fecha));
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Object[] fila = {
+                            rs.getInt("id_usuario"),
+                            rs.getString("nombre"),
+                            rs.getDate("fecha"),
+                            rs.getTime("hora_salida")
+                    };
+
+                    lista.add(fila);
+                }
+            }
+
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "Error al obtener reporte de salidas anticipadas: "
+                            + e.getMessage()
+            );
+        }
+
+        return lista;
+    }
+
+
+    // =========================
+    // REPORTE DE INASISTENCIAS
+    // =========================
+
+    public ArrayList<Object[]> obtenerInasistencias(String fecha) {
+
+        ArrayList<Object[]> lista = new ArrayList<>();
+
+        String sql = """
+                SELECT u.id_usuario,
+                       u.nombre
+                FROM usuarios u
+                LEFT JOIN asistencias a
+                    ON u.id_usuario = a.id_usuario
+                    AND a.fecha = ?
+                WHERE a.id_asistencia IS NULL
+                  AND u.estado = TRUE
+                ORDER BY u.nombre
+                """;
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setDate(1, Date.valueOf(fecha));
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Object[] fila = {
+                            rs.getInt("id_usuario"),
+                            rs.getString("nombre"),
+                            fecha
+                    };
+
+                    lista.add(fila);
+                }
+            }
+
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "Error al obtener reporte de inasistencias: "
+                            + e.getMessage()
+            );
+        }
+
+        return lista;
+    }
+
+
 }
