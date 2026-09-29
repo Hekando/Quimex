@@ -8,7 +8,6 @@ public class ConexionBD {
     private static final String URL = "jdbc:mariadb://localhost:3306/control_asistencia";
     private static final String USUARIO = "root";
     private static final String CONTRASENA = "";
-
     // Método para obtener la conexión con la base de datos
     public static Connection getConexion() throws SQLException {
         try {
