@@ -782,9 +782,9 @@ public class UsuarioView extends javax.swing.JFrame {
                                 bloqueo_componentes();
                                 re_cargar_lista();
                                 cargar_lista();
+                                JOptionPane.showMessageDialog(null,"Usuario modificado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("guardardo exito");
                     btn_editar.setBackground(new java.awt.Color(30, 120, 200));//azul
-                    JOptionPane.showMessageDialog(null,"Usuario modificado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }else{
                     btn_editar.setBackground(new java.awt.Color(40, 180, 120));//verde
@@ -842,6 +842,7 @@ public class UsuarioView extends javax.swing.JFrame {
                                 bloqueo_componentes();
                                 re_cargar_lista();
                                 cargar_lista();
+                        JOptionPane.showMessageDialog(null,"Usuario modificado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("guardardo update exito");
                         //b=true;
                         //btn_editar.setBackground(new java.awt.Color(20, 160, 240));
