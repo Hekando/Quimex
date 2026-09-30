@@ -1,0 +1,117 @@
+-- =====================================================
+-- BASE DE DATOS: control_asistencia
+-- =====================================================
+CREATE DATABASE IF NOT EXISTS control_asistencia
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+USE control_asistencia;
+
+-- =====================================================
+-- TABLA: roles
+-- =====================================================
+CREATE TABLE roles (
+ id_roles INT AUTO_INCREMENT PRIMARY KEY,
+ nombre_rol VARCHAR(60) NOT NULL
+);
+-- =====================================================
+-- TABLA: usuarios
+-- =====================================================
+CREATE TABLE usuarios (
+ id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+ nombre VARCHAR(50) NOT NULL,
+ correo VARCHAR(50) NOT NULL UNIQUE,
+ contrasena VARCHAR(100) NOT NULL,
+ id_rol INT NOT NULL,
+ estado BOOLEAN NOT NULL DEFAULT TRUE,
+ FOREIGN KEY (id_rol)
+ REFERENCES roles(id_roles)
+);
+-- =====================================================
+-- TABLA: asistencias
+-- =====================================================
+CREATE TABLE asistencias (
+ id_asistencia INT AUTO_INCREMENT PRIMARY KEY,
+ id_usuario INT NOT NULL,
+ fecha DATE NOT NULL,
+ hora_entrada TIME NULL,
+ hora_salida TIME NULL,
+ FOREIGN KEY (id_usuario)
+ REFERENCES usuarios(id_usuario)
+);
+
+-- =====================================================
+-- DATOS DE PRUEBA LA PRIMERA VEZ CREADA EL DB
+-- =====================================================
+INSERT INTO roles (nombre_rol) VALUES
+('Administrador'),
+('Empleado');
+
+INSERT INTO usuarios
+(nombre, correo, contrasena, id_rol, estado)
+VALUES
+('Marcelo Salvatierra', 'marcelo@gmail.com', SHA2('1234',256), 1, TRUE),
+('Hector Chambe', 'hector@gmail.com', SHA2('1234',256), 1, TRUE),
+('Erick Mamani', 'erick@gmail.com', SHA2('1234',256), 1, TRUE),
+('Diego Morales', 'diego@gmail.com', SHA2('1234',256), 2, TRUE),
+('Elena Espinoza', 'elena.espi@email.com', SHA2('Ele*26Pass',256), 2, TRUE),
+('Francisco Javier', 'francisco.j@email.com', SHA2('FranJ_77#',256), 2, FALSE),
+('Gabriela Paz', 'gabriela.paz@email.com', SHA2('GabyP_!23',256), 2, TRUE),
+('Hugo Gutiérrez', 'hugo.gutierrez@email.com', SHA2('Hgu_9841x',256), 2, TRUE),
+('Isabel Torres', 'isabel.t@email.com', SHA2('IsaT*2026',256), 2, TRUE),
+('Joaquín Soto', 'joaquin.soto@email.com', SHA2('JoacS_#88',256), 2, TRUE),
+('Karla Mendoza', 'karla.men@email.com', SHA2('KarlM!990',256), 2, TRUE),
+('Lucas Vergara', 'lucas.v@email.com', SHA2('LukV_26$p',256), 2, TRUE),
+('Mariana Reyes', 'mariana.reyes@email.com', SHA2('MariR#123',256), 2, FALSE),
+('Nicolás Tapia', 'nicolas.t@email.com', SHA2('NicoT_!99',256), 2, TRUE),
+('Olga Benítez', 'olga.b@email.com', SHA2('OlgB*8872',256), 2, TRUE),
+('Pablo Aravena', 'pablo.aravena@email.com', SHA2('PablA_#55',256), 2, FALSE);
+
+INSERT INTO asistencias
+(id_usuario, fecha, hora_entrada, hora_salida)
+VALUES
+(1, '2026-09-01', '09:15:00', '17:35:00'),
+(2, '2026-09-01', '09:40:00', '17:30:00'),
+(1, '2026-09-02', '09:20:00', '17:10:00');
+
+-- =====================================================
+-- SE GENERA UNA VISTA SIMPLE POR ASISTENCIA ACENDENTE
+-- =====================================================
+-- Eliminar la vista si ya existía para evitar errores
+DROP VIEW IF EXISTS vista_resumen_asistencias;
+
+-- Crear la vista
+CREATE VIEW vista_resumen_asistencias AS
+SELECT
+    u.id_usuario,
+    u.nombre,
+    r.nombre_rol,
+    COUNT(a.id_asistencia) AS dias_asistidos
+FROM usuarios u
+INNER JOIN roles r ON u.id_rol = r.id_roles
+LEFT JOIN asistencias a ON u.id_usuario = a.id_usuario
+GROUP BY u.id_usuario, u.nombre, r.nombre_rol;
+
+-- =====================================================
+-- SE GENERA PROCEDIMIENTO CONSULTA EN BASE ENTRADA "NOMBRE"
+-- =====================================================
+-- Eliminar el procedimiento si ya existía para evitar duplicados
+DROP PROCEDURE IF EXISTS ConsultarAsistenciaPorNombre;
+
+DELIMITER $$
+
+CREATE PROCEDURE ConsultarAsistenciaPorNombre(
+    IN p_nombre VARCHAR(50) -- Variable de entrada para el nombre del usuario
+)
+BEGIN
+    SELECT
+        u.nombre,
+        r.nombre_rol,
+        COUNT(a.id_asistencia) AS dias_asistidos
+    FROM usuarios u
+    INNER JOIN roles r ON u.id_rol = r.id_roles
+    LEFT JOIN asistencias a ON u.id_usuario = a.id_usuario
+    WHERE u.nombre LIKE CONCAT('%', p_nombre, '%') -- Filtra coincidencias parciales
+    GROUP BY u.id_usuario, u.nombre, r.nombre_rol;
+END$$
+
+DELIMITER ;
