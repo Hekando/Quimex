@@ -8,6 +8,7 @@ import Model.Usuario;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 public class UsuarioView extends javax.swing.JFrame {
     int id=0;
@@ -85,6 +86,12 @@ public class UsuarioView extends javax.swing.JFrame {
         txt_pass2.setBackground(Color.white);
         jList_rol.setBackground(Color.white);
         jList_estado.setBackground(Color.white);
+        
+        jList_rol.setSelectionBackground(new java.awt.Color(190, 190, 190));
+        jList_rol.setSelectionForeground(Color.WHITE);
+        
+        jList_estado.setSelectionBackground(new java.awt.Color(190, 190, 190));
+        jList_estado.setSelectionForeground(Color.WHITE);
     }
     
     
@@ -101,12 +108,25 @@ public class UsuarioView extends javax.swing.JFrame {
         jList_rol.setEnabled(true);
         jList_estado.setEnabled(true);
         
-        txt_nombre.setBackground(new java.awt.Color(130, 255, 80));
-        txt_correo.setBackground(new java.awt.Color(130, 255, 80));
-        txt_pass1.setBackground(new java.awt.Color(130, 255, 80));
-        txt_pass2.setBackground(new java.awt.Color(130, 255, 80));
-        jList_rol.setBackground(new java.awt.Color(130, 255, 80));
-        jList_estado.setBackground(new java.awt.Color(130, 255, 80));
+        txt_nombre.setBackground(new java.awt.Color(60, 125, 70));
+        txt_correo.setBackground(new java.awt.Color(60, 125, 70));
+        txt_pass1.setBackground(new java.awt.Color(60, 125, 70));
+        txt_pass2.setBackground(new java.awt.Color(60, 125, 70));
+        jList_rol.setBackground(new java.awt.Color(60, 125, 70));
+        jList_estado.setBackground(new java.awt.Color(60, 125, 70));
+        
+        txt_nombre.setForeground(Color.white);
+        txt_correo.setForeground(Color.white);
+        txt_pass1.setForeground(Color.white);
+        txt_pass2.setForeground(Color.white);
+        jList_rol.setForeground(Color.white);
+        jList_estado.setForeground(Color.white);
+        
+        jList_rol.setSelectionBackground(new java.awt.Color(20, 150, 230));
+        jList_rol.setSelectionForeground(Color.WHITE);
+        
+        jList_estado.setSelectionBackground(new java.awt.Color(20, 150, 230));
+        jList_estado.setSelectionForeground(Color.WHITE);
         
         txt_nombre.requestFocusInWindow();
     }
@@ -782,9 +802,9 @@ public class UsuarioView extends javax.swing.JFrame {
                                 bloqueo_componentes();
                                 re_cargar_lista();
                                 cargar_lista();
-                                JOptionPane.showMessageDialog(null,"Usuario modificado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("guardardo exito");
                     btn_editar.setBackground(new java.awt.Color(30, 120, 200));//azul
+                    JOptionPane.showMessageDialog(null,"Usuario modificado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }else{
                     btn_editar.setBackground(new java.awt.Color(40, 180, 120));//verde
@@ -842,7 +862,6 @@ public class UsuarioView extends javax.swing.JFrame {
                                 bloqueo_componentes();
                                 re_cargar_lista();
                                 cargar_lista();
-                        JOptionPane.showMessageDialog(null,"Usuario modificado con exito","Información",JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("guardardo update exito");
                         //b=true;
                         //btn_editar.setBackground(new java.awt.Color(20, 160, 240));
